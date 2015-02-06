@@ -1,0 +1,116 @@
+---
+title: "Code book"
+author: "Joris Schut"
+date: "Friday, February 06, 2015"
+output: html_document
+---
+
+#Codebook for Getting and Cleaning Data Course Project
+======================================================
+
+## Project Description
+This script is to take the UCI HAR (Human Activity Recognition 
+        using smart phones) Dataset and do the following things:
+
+Create one R script called run_analysis.R that does the following. 
+ 1. Merges the training and the test sets to create one data set.
+ 2. Extracts only the measurements on the mean and standard deviation for 
+    each measurement. 
+ 3. Uses descriptive activity names to name the activities in the data set
+ 4. Appropriately labels the data set with descriptive variable names. 
+ 5. From the data set in step 4, creates a second, independent tidy data 
+    set with the average of each variable for each activity and each subject.
+
+##Creating the tiny datafile
+ 1. Download the datafile from the UCI Machine Learning repository at:
+    http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+    or direcly from:
+    https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
+    into the folder the run_analysis.R script is located.
+ 2. Set the working directory to this directory.
+ 3. Run the run_analysis script.
+
+##Description of the variables in the tiny_data.txt file
+
+###activity
+Describes the activity when the measurement was taken.
+Values:
+- WALKING
+- WALKING_UPSTAIRS
+- WALKING_DOWNSTAIRS
+- SITTING
+- STANDING
+- LAYING
+
+###sensor
+Sensor used for the measurement.
+Values:
+- time-body-acceleration-mean-x                  
+- time-body-acceleration-mean-y                  
+- time-body-acceleration-mean-z                  
+- time-body-acceleration-std-x                   
+- time-body-acceleration-std-y                   
+- time-body-acceleration-std-z                   
+- time-gravity-acceleration-mean-x               
+- time-gravity-acceleration-mean-y               
+- time-gravity-acceleration-mean-z               
+- time-gravity-acceleration-std-x                
+- time-gravity-acceleration-std-y                
+- time-gravity-acceleration-std-z                
+- time-body-acceleration-jerk-mean-x             
+- time-body-acceleration-jerk-mean-y             
+- time-body-acceleration-jerk-mean-z             
+- time-body-acceleration-jerk-std-x              
+- time-body-acceleration-jerk-std-y              
+- time-body-acceleration-jerk-std-z              
+- time-body-gyroscope-mean-x                     
+- time-body-gyroscope-mean-y                     
+- time-body-gyroscope-mean-z                     
+- time-body-gyroscope-std-x                      
+- time-body-gyroscope-std-y                      
+- time-body-gyroscope-std-z                      
+- time-body-gyroscope-jerk-mean-x                
+- time-body-gyroscope-jerk-mean-y                
+- time-body-gyroscope-jerk-mean-z                
+- time-body-gyroscope-jerk-std-x                 
+- time-body-gyroscope-jerk-std-y                 
+- time-body-gyroscope-jerk-std-z                 
+- time-body-acceleration-magnitude-mean          
+- time-body-acceleration-magnitude-std           
+- time-gravity-acceleration-magnitude-mean       
+- time-gravity-acceleration-magnitude-std        
+- time-body-acceleration-jerk-magnitude-mean     
+- time-body-acceleration-jerk-magnitude-std      
+- time-body-gyroscope-magnitude-mean             
+- time-body-gyroscope-magnitude-std              
+- time-body-gyroscope-jerk-magnitude-mean        
+- time-body-gyroscope-jerk-magnitude-std         
+- frequency-body-acceleration-mean-x             
+- frequency-body-acceleration-mean-y             
+- frequency-body-acceleration-mean-z             
+- frequency-body-acceleration-std-x              
+- frequency-body-acceleration-std-y              
+- frequency-body-acceleration-std-z              
+- frequency-body-acceleration-jerk-mean-x        
+- frequency-body-acceleration-jerk-mean-y        
+- frequency-body-acceleration-jerk-mean-z        
+- frequency-body-acceleration-jerk-std-x         
+- frequency-body-acceleration-jerk-std-y         
+- frequency-body-acceleration-jerk-std-z         
+- frequency-body-gyroscope-mean-x                
+- frequency-body-gyroscope-mean-y                
+- frequency-body-gyroscope-mean-z                
+- frequency-body-gyroscope-std-x                 
+- frequency-body-gyroscope-std-y                 
+- frequency-body-gyroscope-std-z                 
+- frequency-body-acceleration-magnitude-mean     
+- frequency-body-acceleration-magnitude-std      
+- frequency-body-acceleration-jerk-magnitude-mean
+- frequency-body-acceleration-jerk-magnitude-std 
+- frequency-body-gyroscope-magnitude-mean        
+- frequency-body-gyroscope-magnitude-std         
+- frequency-body-gyroscope-jerk-magnitude-mean   
+- frequency-body-gyroscope-jerk-magnitude-std    
+
+###value
+Numeric data gathered from the measurement
