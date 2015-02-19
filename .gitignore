@@ -44,3 +44,12 @@ Temporary Items
 Toolbox/HelloWorld.md
 Toolbox/Hello World.Rmd
 Exploratory/wk1/household_power_consumption.txt
+Exploratory/wk3/Source_Classification_Code.rds
+Exploratory/wk3/summarySCC_PM25.rds
+Cleaning/wk3/data/phonedata.zip
+Cleaning/wk3/data/UCI HAR Dataset/activity_labels.txt
+Cleaning/wk3/data/UCI HAR Dataset/features.txt
+Cleaning/wk3/data/UCI HAR Dataset/features_info.txt
+Cleaning/wk3/data/UCI HAR Dataset/README.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/Inertial Signals/body_acc_x_test.txt
+*.txt
