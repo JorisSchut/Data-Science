@@ -77,7 +77,7 @@ skinny <- inner_join(skinny, activity_names)
 # Reorder columns to move new activity names to first column 
 # and remove and rename Description as activity
 
-skinny <- skinny[,c(69, 2:68)]
+skinny <- skinny[,c(69, 1:68)]
 colnames(skinny)[1] <- "Activity"
 
 print("step 3 complete")
@@ -103,10 +103,10 @@ print("step 4 complete")
 ### Step 5
 # Use tidyr to gather measurements into tidy data (1 line per observation)
 
-ttidy <- skinny %>% gather(sensor, Value, 3:68)
+ttidy <- skinny %>% gather(sensor, Value, 4:69)
 
 # Use dplyr to summarize by subject and activity
-ttidy <- ttidy %>% group_by(Subject, activity)%>%
+ttidy <- ttidy %>% group_by(subject, activity)%>%
 summarize(mean = mean(Value))
 
 # Write out tidy data set to file
