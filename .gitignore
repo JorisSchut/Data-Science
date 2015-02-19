@@ -52,4 +52,27 @@ Cleaning/wk3/data/UCI HAR Dataset/features.txt
 Cleaning/wk3/data/UCI HAR Dataset/features_info.txt
 Cleaning/wk3/data/UCI HAR Dataset/README.txt
 Cleaning/wk3/data/UCI HAR Dataset/test/Inertial Signals/body_acc_x_test.txt
-*.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/Inertial Signals/body_acc_y_test.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/Inertial Signals/body_gyro_y_test.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/Inertial Signals/body_gyro_z_test.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/subject_test.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/Inertial Signals/total_acc_y_test.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/Inertial Signals/body_gyro_x_test.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/Inertial Signals/body_gyro_x_test.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/y_test.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/Inertial Signals/body_acc_z_test.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/Inertial Signals/total_acc_z_test.txt
+Cleaning/wk3/data/UCI HAR Dataset/train/Inertial Signals/body_gyro_y_train.txt
+Cleaning/wk3/data/UCI HAR Dataset/train/Inertial Signals/body_acc_z_train.txt
+Cleaning/wk3/data/UCI HAR Dataset/train/Inertial Signals/total_acc_y_train.txt
+Cleaning/wk3/data/UCI HAR Dataset/train/Inertial Signals/body_acc_x_train.txt
+Cleaning/wk3/data/UCI HAR Dataset/train/Inertial Signals/total_acc_z_train.txt
+Cleaning/wk3/data/UCI HAR Dataset/train/Inertial Signals/body_gyro_x_train.txt
+Cleaning/wk3/data/UCI HAR Dataset/train/Inertial Signals/body_gyro_z_train.txt
+Cleaning/wk3/data/UCI HAR Dataset/train/Inertial Signals/body_acc_y_train.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/X_test.txt
+Cleaning/wk3/data/UCI HAR Dataset/test/Inertial Signals/total_acc_x_test.txt
+Cleaning/wk3/data/UCI HAR Dataset/train/X_train.txt
+Cleaning/wk3/data/UCI HAR Dataset/train/y_train.txt
+Cleaning/wk3/data/UCI HAR Dataset/train/Inertial Signals/total_acc_x_train.txt
+Cleaning/wk3/data/UCI HAR Dataset/train/subject_train.txt
