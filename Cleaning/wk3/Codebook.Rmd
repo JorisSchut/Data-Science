@@ -32,6 +32,9 @@ Create one R script called run_analysis.R that does the following.
 
 ##Description of the variables in the tiny_data.txt file
 
+###subject
+Subject number; numerical value ranging from 1 to 30
+
 ###activity
 Describes the activity when the measurement was taken.
 Values:
