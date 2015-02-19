@@ -20,7 +20,8 @@ SCC <- select(SCC, SCC, SCC.Level.One, SCC.Level.Three)%>%
         filter(SCC.Level.One == grep("Combustion", SCC$SCC.Level.One, value=TRUE) & 
                  SCC.Level.Three == grep("Coal", SCC$SCC.Level.Three, value=TRUE))%>%
                  select(SCC)
-
+#filter for the SCC values (its also possible to first merge and than filter but this is
+#faster)
 NEI <- filter(NEI, SCC==SCC$SCC)
 
 #loop to obtain the total PM2.5 values for each year
@@ -34,7 +35,7 @@ Emissionsum <- as.data.frame(matrix(Emissionsum, ncol = 2))
 
 #plot the graphic
 qplot(V2, V1, data=Emissionsum, 
-      main="Total PM2.5 emissions from coal related sources by year",
+      main="Total PM2.5 emissions from coal combustion related sources",
       xlab="Years", ylab="Total PM2.5 emissions (ton)",
       geom=c("point",  "smooth"))
 
