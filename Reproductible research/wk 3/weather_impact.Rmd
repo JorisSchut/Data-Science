@@ -2,7 +2,9 @@
 title: "Changes in the impact of weather related events in the 1990's and 2000's"
 author: "Joris Schut"
 date: "Sunday, February 22, 2015"
-output: html_document
+output:
+  html_document:
+    keep_md: yes
 ---
 
 ##Synopstis
