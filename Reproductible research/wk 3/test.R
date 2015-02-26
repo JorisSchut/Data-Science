@@ -6,7 +6,7 @@ if (!file.exists("repdata-data-StormData.csv.bz2")) {
   quit = TRUE
   mode = "wb"
   download.file(url, dest, meth, quit, mode)
-  #WOrks on tested operating system (Windows 7). Please change values if needed.
+  #Works on tested operating system (Windows 7). Please change values if needed.
  } 
 
 #Load the libraries

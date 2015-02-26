@@ -15,6 +15,18 @@ Load the data (i.e. read.csv())
 ```{r}
 library(lattice)
 
+#Download the file (if not already done)
+if (!file.exists("activity.csv")) {
+  url  = "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
+  dest = "activity.zip"
+  meth = "internal"
+  quit = TRUE
+  mode = "wb"
+  download.file(url, dest, meth, quit, mode)
+  #Works on tested operating system (Windows 7). Please change values if needed.
+  unzip("activity.zip")
+  }  
+
 activity <- read.csv("activity.csv", na.strings="NA")
 ```
 
