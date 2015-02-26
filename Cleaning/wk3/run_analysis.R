@@ -12,11 +12,23 @@
 #  5. From the data set in step 4, creates a second, independent tidy data 
 #     set with the average of each variable for each activity and each subject.
 #
-# It is assumed this script is situated in the main directory and the Samsung data
-# being in the working directory is already set.
+# It is assumed this script is situated in the same directory as the Samsung data
+# and the working directory is already set.
 #########################################
 
-# Load in the required libraries
+#Download the file (if not already done)
+if (!file.exists("phonedata.zip")) {
+  url  = "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip "
+  dest = "phonedata.zip"
+  meth = "internal"
+  quit = TRUE
+  mode = "wb"
+  download.file(url, dest, meth, quit, mode)
+  #Works on tested operating system (Windows 7). Please change values if needed.
+  unzip("phonedata.zip")
+} 
+
+# Load the required libraries
 library(dplyr)
 library(stringr)
 library(tidyr)
@@ -25,10 +37,10 @@ library(tidyr)
 # Read in training data sets, apply initial column names and combine them into a
 #combined variable
 
-features <- read.table("./data/UCI HAR Dataset/features.txt", stringsAsFactors = FALSE)
-xtrn <- read.table("./data/UCI HAR Dataset/train/X_train.txt", nrows = 7352)
-ytrn <- read.table("./data/UCI HAR Dataset/train/y_train.txt")
-strn <- read.table("./data/UCI HAR Dataset/train/subject_train.txt")
+features <- read.table("./UCI HAR Dataset/features.txt", stringsAsFactors = FALSE)
+xtrn <- read.table("./UCI HAR Dataset/train/X_train.txt", nrows = 7352)
+ytrn <- read.table("./UCI HAR Dataset/train/y_train.txt")
+strn <- read.table("./UCI HAR Dataset/train/subject_train.txt")
 
 colnames(xtrn) <- features$V2
 colnames(ytrn) <- "Activity"
@@ -39,9 +51,9 @@ train <- cbind(strn, ytrn, xtrn)
 # Read in test data sets, apply initial column names and combine them into a
 #combined variable
 
-xtest <- read.table("./data/UCI HAR Dataset/test/X_test.txt", nrows = 2947)
-ytest <- read.table("./data/UCI HAR Dataset/test/y_test.txt")
-stest <- read.table("./data/UCI HAR Dataset/test/subject_test.txt")
+xtest <- read.table("./UCI HAR Dataset/test/X_test.txt", nrows = 2947)
+ytest <- read.table("./UCI HAR Dataset/test/y_test.txt")
+stest <- read.table("./UCI HAR Dataset/test/subject_test.txt")
 
 colnames(xtest) <- features$V2
 colnames(ytest) <- "Activity"
@@ -67,7 +79,7 @@ print("step 2 complete")
 # Change Activities from numeric to names
 # Load in activity names file and add appropriate column names prior to join
 
-activity_names <- read.table("./data/UCI HAR Dataset/activity_labels.txt", stringsAsFactors = FALSE)
+activity_names <- read.table("./UCI HAR Dataset/activity_labels.txt", stringsAsFactors = FALSE)
 colnames(activity_names) <- c("Activity", "ActDesc")
 
 # Join activity names with skinny by Activity in each data frame
