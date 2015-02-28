@@ -1,0 +1,125 @@
+---
+title: "Assignment 1 basic inferential analysis"
+author: "Joris Schut"
+date: "Saturday, February 28, 2015"
+output:
+  pdf_document: default
+  html_document:
+    keep_md: yes
+---
+
+##Introduction
+In this basic inferential analysis differnt levels in the supp and dose variables from the ToothGrowth dataset are compared to each other to see if they have similar means. This is done by using t-test. The process of loading the data, preparing the data, performing the t-tests and deriving conclusions from these test is described in this document.
+
+##1. Load the ToothGrowth data and perform some basic exploratory data analyses
+
+First the libraries used for this study are loaded into R.
+```{r}
+#Load libraries
+library(datasets)
+library(dplyr)
+```
+
+Second, the dataset is stored in the data variable.
+```{r}
+#Read the data
+data<-tbl_df(ToothGrowth)
+```
+
+Third, some basic exploratory data analysis is performed
+```{r}
+#Exploratory data analysis
+print(names(data))
+print(dim(data))
+print(head(data))
+
+print(class(data$len))
+print(class(data$supp))
+print(class(data$dose))
+
+print(unique(data$supp))
+print(unique(data$dose))
+```
+
+##2. Provide a basic summary of the data
+
+Summary data is provided by using the summary() function.
+```{r}
+summary (data)
+```
+
+##3. Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class, even if there's other approaches worth considering)
+
+T-tests are used to determine if there is a statistacally significant difference between the different groups with in the supp variable (OJ & VC) and dose variable (0.5, 1.0 & 2.0) exists.
+
+First, we will look at the supp variable. To prepare for the t-test the differnt levels of this variable are filtered by. Then the len column is selected and the variables are bound together by colomn.
+```{r}
+#Create 2 data sets that contain the len entries filtered by the values of the sub variable
+OJ <- filter(data, supp=="OJ") %>%
+      select(len)
+VC <- filter(data, supp=="VC") %>%
+      select(len)
+
+#Combine the two in a single variable
+x1 <- cbind(OJ, VC)
+```
+
+After this is done a 2-sided t-test is carried out using the following hypotheses:
+- H0: Xbar1 equals Xbar2
+- Ha: Xbar1 does not equals Xbar2
+
+With X1 being the data related to OJ values in the supp variable and X2 being the data related to the VC values in the supp variable.
+
+```{r}
+#Perform a two-sided t-test
+t.test(x1[,1], x1[,2], alternative="two.sided")
+```
+
+Second, we will look at the dose variable. To prepare for the t-test the differnt levels of this variable are filtered by. Then the len column is selected and the variables are bound together by colomn.
+
+```{r}
+#Create 3 data sets that contain the len entries filtered by the values of the dose variable
+dose0.5 <- filter(data, dose==0.5)%>%
+            select(len)
+dose1.0 <- filter(data, dose==1.0)%>%
+            select(len)
+dose2.0 <- filter(data, dose==2.0)%>%
+            select(len)
+
+#Combine the three in a single variable
+x2 <- cbind(dose0.5, dose1.0, dose2.0)
+```
+
+After this is done three 2-sided t-test are carried out using the following hypotheses:
+- H0: Xbar1 equals Xbar2
+  H0: Xbar1 equals Xbar3
+  H0: Xbar2 equals Xbar3
+- Ha: Xbar1 does not equals Xbar2
+  H0: Xbar1 does not equals Xbar3
+  H0: Xbar2 does not equals Xbar3
+
+With X1 being the data related to 0.5 values in the dose variable, X2 being the data related to 1.0 values in the dose variable and X3 being the data related to 2.0 values in the dose variable.
+
+```{r}
+#Perform a two-sided t-test
+t.test(x2[,1], x2[,2], alternative="two.sided")
+t.test(x2[,1], x2[,3], alternative="two.sided")
+t.test(x2[,2], x2[,3], alternative="two.sided")
+```
+
+##4 State your conclusions and the assumptions needed for your conclusions
+
+With regard to the questions wherer the means of the observations of the 2 levels present in the subb variable are similar, it can be concluded that we reject H0 in favor of Ha as the p-value of the t-test is smaller than 0.05 (2.2e-16). The same conclusion can be drawn from the 3 t-test from the dose variable (p-values: 1.268e-07, 4.398e-14 and 1.906e-05).
+
+Four assumptions have been made to arrive at these conlusions: the assumption the sample are indepent and identical distributed, the samples are taken from comparable groups, the samples are not paired and the variances were unequal. Given the data is from the same study, the first two assumptions can be considered reasonable. This is also true for the third assumption as data represent differnt persons. The fourth assumption was not tested but can easily be verified through the following block of code.
+
+```{r}
+
+#Test if variances are equal
+print(var(x1[,1])==var(x1[,2]))
+print(var(x2[,1])==var(x2[,2]))
+print(var(x2[,1])==var(x2[,3]))
+print(var(x2[,2])==var(x2[,3]))
+```
+
+As these test all return FALSE it can be assumed variances are not equal.
