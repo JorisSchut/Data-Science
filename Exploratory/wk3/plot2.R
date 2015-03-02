@@ -6,25 +6,17 @@ library(dplyr)
 #loads the data files and converts them into the tbl_df class
 NEI <- readRDS("summarySCC_PM25.rds")
 
-#initializes classes
-Emissionsum <- as.numeric()
-NEI <- tbl_df(NEI)
-years <- c(1999, 2002, 2005, 2008)
-
 #filter for Baltimore (fips=24510)
 NEI <- filter(NEI, fips==24510)%>%
         select(Emissions, year)
 
-#loop to obtain the total PM2.5 values for each year
-for(i in 1:length(years)){
-#Calculate the sum
-NEIyear <- filter(NEI, Emissions, year == years[i])
-Emissionsum <- append(Emissionsum, sum(NEIyear$Emissions))
-}
+#aggregate the total PM2.5 values for each year
+Emissionsum <- aggregate(Emissions ~ year, data=NEI, sum)
 
 #plot the graphic
-barplot(Emissionsum, names.arg=years, xlab="Years", ylab="Total PM2.5 (ton)",
-        main= "Total PM2.5 in Baltimore, Maryland")
+barplot(Emissionsum$Emissions, Emissionsum$year, xlab="Years",
+        ylab="Total PM2.5 (ton)",
+        main= "Total PM2.5 emissions in Baltimore, Maryland (1999-2008)")
 
 #Writes the plot as a png file
 dev.print(png, file = "plot2.png", width = 480, height = 480)

@@ -16,7 +16,8 @@
 # and the working directory is already set.
 #########################################
 
-#Download the file (if not already done)
+#Step 0
+#Download the file (if not already done) and unzip it
 if (!file.exists("phonedata.zip")) {
   url  = "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip "
   dest = "phonedata.zip"
@@ -32,6 +33,8 @@ if (!file.exists("phonedata.zip")) {
 library(dplyr)
 library(stringr)
 library(tidyr)
+
+print("step 0 complete")
 
 ### Step 1
 # Read in training data sets, apply initial column names and combine them into a
@@ -117,9 +120,14 @@ print("step 4 complete")
 
 ttidy <- skinny %>% gather(sensor, Value, 4:69)
 
-# Use dplyr to summarize by subject and activity
-ttidy <- ttidy %>% group_by(subject, activity)%>%
-summarize(mean = mean(Value))
+# Aggregate the data, order the columns and order the rows
+ttidy <- aggregate(Value ~ sensor + subject + activity, data=ttidy,
+                    mean, na.rm=TRUE)%>%
+        select(subject, activity, sensor, Value)%>%
+        group_by(subject, activity, sensor)
+
+#Make the colnames start with a capital letter to look more consistent
+colnames(ttidy) <- c("Subject", "Activity", "Sensor", "Value")
 
 # Write out tidy data set to file
 

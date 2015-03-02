@@ -44,8 +44,10 @@ colnames(Emissionsum) <- c("TotalPM2.5", "Year", "SCCtypes")
 
 #plot the graphic
 qplot(Year, TotalPM2.5, data=Emissionsum, color =SCCtypes,
-      main="Total PM2.5 emissions by year", xlab= "Years",
+      main="Total PM2.5 emissions in the US (1999-2008)", xlab= "Years",
       ylab= "Total PM2.5 emissions (ton)", geom=c("point",  "smooth"))
+#this trows a couple of Warnings as a result of the added geom. This however, does not
+#influence the plot.
 
 #Writes the plot as a png file
 dev.print(png, file = "plot3.png", width = 480, height = 480)

@@ -8,35 +8,29 @@ library(ggplot2)
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
-years <- c(1999, 2002, 2005, 2008)
-
-#initializes classes
-Emissionsum <- as.numeric()
-NEI <- tbl_df(NEI)
-SCC <- tbl_df(SCC)
-
+#filter for Baltimore and select the colums to be used
 NEI <- filter(NEI, fips==24510) %>%
         select(SCC, Emissions, year)
 SCC <- select(SCC, SCC, SCC.Level.One)  
 
+#merge the datasets and keep the ones that have 'Mobile in the SCC.Level.One variable
+#as all mobile polluters are motor vehicles (includes trucks and other vehicles other
+#than cars)
 NEI <- merge(NEI, SCC, by="SCC")%>%
         filter(SCC.Level.One == grep("Mobile", NEI$SCC.Level.One, value=TRUE))%>%
         select(Emissions, year)
 
-#loop to obtain the total PM2.5 values for each year
-for(i in 1:length(years)){
-    NEIyear <- filter(NEI, Emissions, year == years[i])
-    Emissionsum <- append(Emissionsum, sum(NEIyear$Emissions))
-}
-Emissionsum <- append(Emissionsum, years)
-Emissionsum <- as.data.frame(matrix(Emissionsum, ncol = 2))
-
+#aggregate the total PM2.5 values for each year
+Emissionsum <- aggregate(Emissions ~ year, data=NEI, sum, rm.na=TRUE)
 
 #plot the graphic
-qplot(V2, V1, data=Emissionsum,
-      main="Total PM2.5 emissions in Baltimore from mobile sources by year",
+qplot(year, Emissions, data=Emissionsum,
+      main="Total PM2.5 emissions in Baltimore 
+      (mobile sources)(1999-2008)",
       xlab= "Years", ylab= "Total PM2.5 emissions (ton)",
-      geom  =  c("point",	"smooth"))
+      geom  =  c("point",  "smooth"))
+#this trows a couple of Warnings as a result of the added geom. This however, does not
+#influence the plot.
 
 #Writes the plot as a png file
 dev.print(png, file = "plot5.png", width = 480, height = 480)

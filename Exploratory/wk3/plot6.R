@@ -9,40 +9,33 @@ NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 NEI$fips <- as.string(NEI$fips)
 
-years <- c(1999, 2002, 2005, 2008)
-place <- c("24510", "06037")
-placenames <- rep(c("Baltimore", "Los Angeles"), times=4)
-
-#initializes classes
-Emissionsum <- as.numeric()
-NEI <- tbl_df(NEI)
-SCC <- tbl_df(SCC)
-
-NEI <- filter(NEI, fips==place[1] | fips==place[2]) %>%
+#filter for Baltimore and LA and select the colums to be used
+NEI <- filter(NEI, fips=="24510" | fips=="06037") %>%
         select(SCC, Emissions, year, fips)
 SCC <- select(SCC, SCC, SCC.Level.One)  
 
+#merge the datasets and keep the ones that have 'Mobile in the SCC.Level.One variable
+#as all mobile polluters are motor vehicles (includes trucks and other vehicles other
+#than cars)
 NEI <- merge(NEI, SCC, by="SCC")%>%
         filter(SCC.Level.One == grep("Mobile", NEI$SCC.Level.One, value=TRUE))%>%
         select(Emissions, year, fips)
 
-#loop to obtain the total PM2.5 values for each year
-for(i in 1:length(years)){
-  for(j in 1:length(place)){
-    NEIyear <- filter(NEI, Emissions, year == years[i] &
-                        fips == place[j])
-    Emissionsum <- append(Emissionsum, sum(NEIyear$Emissions))
-  }
-}
-Emissionsum <- append(Emissionsum, rep(years, each=2))
-Emissionsum <- as.data.frame(matrix(Emissionsum, ncol = 2))
-Emissionsum <- cbind(Emissionsum, placenames)
+#aggregate the total PM2.5 values for each year
+Emissionsum <- aggregate(Emissions ~ year + fips, data=NEI, sum, rm.na=TRUE)
+
+#change some names
+colnames(Emissionsum) <- c("year","Placename","Emissions")
+Emissionsum$placename[grep("24510", Emissionsum$Placename)] <- "Baltimore"
+Emissionsum$placename[grep("06037", Emissionsum$Placename)] <- "Los Angeles"
 
 #plot the graphic
-qplot(V2, V1, data=Emissionsum, color=placenames,
-      main="Total PM2.5 emissions from mobile sources by year",
+qplot(year, Emissions, data=Emissionsum, color=Placename,
+      main="Total PM2.5 emissions from mobile sources (1999-2008)",
       xlab= "Years", ylab= "Total PM2.5 emissions (ton)",
       geom  =	c("point",	"smooth"))
+#this trows a couple of Warnings as a result of the added geom. This however, does not
+#influence the plot.
 
 #Writes the plot as a png file
 dev.print(png, file = "plot6.png", width = 480, height = 480)

@@ -8,36 +8,31 @@ library(ggplot2)
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
-years <- c(1999, 2002, 2005, 2008)
-
-#initializes classes
-Emissionsum <- as.numeric()
-NEI <- tbl_df(NEI)
-SCC <- tbl_df(SCC)
-
+#filters the rows to be used; Coal combustion is captured by lookng first looking at
+#all combustion sources in SCC.Level.One (the ones that include 'Combustion') and then
+#looking for all coal related sources in the SCC.Level.Three (the ones that include 'Coal')
 NEI <- select(NEI, SCC, Emissions, year)
 SCC <- select(SCC, SCC, SCC.Level.One, SCC.Level.Three)%>%
         filter(SCC.Level.One == grep("Combustion", SCC$SCC.Level.One, value=TRUE) & 
                  SCC.Level.Three == grep("Coal", SCC$SCC.Level.Three, value=TRUE))%>%
                  select(SCC)
+
 #filter for the SCC values (its also possible to first merge and than filter but this is
-#faster)
+#faster). It however rturns a Warning but result are the same (verified this).
 NEI <- filter(NEI, SCC==SCC$SCC)
 
-#loop to obtain the total PM2.5 values for each year
-for(i in 1:length(years)){
-  #Calculate the sum
-   NEIyear <- filter(NEI, Emissions, year == years[i])
-   Emissionsum <- append(Emissionsum, sum(NEIyear$Emissions))
-}
-Emissionsum <- append(Emissionsum, years)
-Emissionsum <- as.data.frame(matrix(Emissionsum, ncol = 2))
+#aggregate the total PM2.5 values for each year
+Emissionsum <- aggregate(Emissions ~ year, data=NEI, sum, rm.na=TRUE)
+
 
 #plot the graphic
-qplot(V2, V1, data=Emissionsum, 
-      main="Total PM2.5 emissions from coal combustion related sources",
+qplot(year, Emissions, data=Emissionsum, 
+      main="Total PM2.5 emissions in the US
+      (coal combustion related sources) (1999-2008)",
       xlab="Years", ylab="Total PM2.5 emissions (ton)",
       geom=c("point",  "smooth"))
+#this trows a couple of Warnings as a result of the added geom. This however, does not
+#influence the plot.
 
 #Writes the plot as a png file
 dev.print(png, file = "plot4.png", width = 480, height = 480)
