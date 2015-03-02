@@ -1,3 +1,18 @@
+#R Script to create the second plot
+
+#check if data sources are present
+if (!file.exists("household_power_consumption.txt")) {
+  url  = "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
+  dest = "powerconsumption.zip"
+  meth = "internal"
+  quit = TRUE
+  mode = "wb"
+  download.file(url, dest, meth, quit, mode)
+  #Works on tested operating system (Windows 7). Please change values if needed.
+  unzip("powerconsumption.zip")
+  file.remove("powerconsumption.zip")
+}
+
 # Load in the required libraries
 library(dplyr)
 library(lubridate)

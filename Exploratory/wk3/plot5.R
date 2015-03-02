@@ -1,5 +1,18 @@
 #R Script to create the fifth plot
 
+#check if data sources are present
+if (!file.exists("summarySCC_PM25.rds") | !file.exists("Source_Classification_Code.rds")) {
+  url  = "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip"
+  dest = "NEIdata.zip"
+  meth = "internal"
+  quit = TRUE
+  mode = "wb"
+  download.file(url, dest, meth, quit, mode)
+  #Works on tested operating system (Windows 7). Please change values if needed.
+  unzip("NEIdata.zip")
+  file.remove("NEIdata.zip")
+}
+
 #loads libraries
 library(dplyr)
 library(ggplot2)

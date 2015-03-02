@@ -1,5 +1,6 @@
-# Reproducible Research: Peer Assessment 1
-
+# Reproductible research peer assignment 1
+Joris Schut  
+Monday, March 02, 2015  
 
 ## Loading and preprocessing the data
 
@@ -9,6 +10,19 @@ Load the data (i.e. read.csv())
 
 ```r
 library(lattice)
+
+#Download the file (if not already done)
+if (!file.exists("activity.csv")) {
+  url  = "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
+  dest = "activity.zip"
+  meth = "internal"
+  quit = TRUE
+  mode = "wb"
+  download.file(url, dest, meth, quit, mode)
+  #Works on tested operating system (Windows 7). Please change values if needed.
+  unzip("activity.zip")
+  remove.file("activity.zip")
+  }  
 
 activity <- read.csv("activity.csv", na.strings="NA")
 ```
@@ -35,7 +49,7 @@ If you do not understand the difference between a histogram and a barplot, resea
 hist(stepstotalbydate$steps, main="Distribution of steps per day", xlab="Steps per day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+![](Peer_assignment_1_files/figure-html/unnamed-chunk-4-1.png) 
 
 Calculate and report the mean and median of the total number of steps taken per day
 
@@ -69,7 +83,7 @@ plot(stepsmeanbyinterval$interval, stepsmeanbyinterval$steps,
      xlab="Interval", ylab="Number of steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+![](Peer_assignment_1_files/figure-html/unnamed-chunk-6-1.png) 
 
 Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -154,7 +168,7 @@ newstepstotalbydate <- aggregate(steps ~ date, data=newactivity, sum, na.rm = TR
 hist(newstepstotalbydate$steps, main="Distribution of steps per day", xlab="Steps per day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
+![](Peer_assignment_1_files/figure-html/unnamed-chunk-11-1.png) 
 
 ```r
 newmean_steps_per_day <- mean(newstepstotalbydate$steps, na.rm=TRUE)
@@ -227,4 +241,4 @@ xyplot(steps ~ interval | type_of_day, stepsmeanbydaytype, type="l", layout=c(1,
        xlab="Interval", ylab="Number of steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
+![](Peer_assignment_1_files/figure-html/unnamed-chunk-13-1.png) 

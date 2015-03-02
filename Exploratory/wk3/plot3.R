@@ -1,5 +1,18 @@
 #R Script to create the third plot
 
+#check if data sources are present
+if (!file.exists("summarySCC_PM25.rds") | !file.exists("Source_Classification_Code.rds")) {
+  url  = "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip"
+  dest = "NEIdata.zip"
+  meth = "internal"
+  quit = TRUE
+  mode = "wb"
+  download.file(url, dest, meth, quit, mode)
+  #Works on tested operating system (Windows 7). Please change values if needed.
+  unzip("NEIdata.zip")
+  file.remove("NEIdata.zip")
+}
+
 #loads libraries
 library(dplyr)
 library(ggplot2)
@@ -8,43 +21,28 @@ library(ggplot2)
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
-#Initializes the years and SCCtypes to be used for the selection
-years <- c(1999, 2002, 2005, 2008)
+#Initializes the SCCtypes to be used for the selection
 SCCtype <- c("Point", "Nonpoint", "Onroad", "Nonroad")
-SCCtypes <- rep(SCCtype, times=4) 
-
-#initializes classes
-Emissionsum <- as.numeric()
-NEI <- tbl_df(NEI)
-SCC <- tbl_df(SCC)
 
 #filters the rows to be used and merges the NEI and SCC variables by SCCtype
 NEI <- filter(NEI, fips==24510) %>%
-        select(SCC, Emissions, year)
+  select(SCC, Emissions, year)
 SCC <- select(SCC, SCC, Data.Category)  
 
 NEI <- merge(NEI, SCC, by="SCC")%>%
-        filter(Data.Category == SCCtype)%>%
-          select(Emissions, year, Data.Category)
+  filter(Data.Category == SCCtype)%>%
+  select(Emissions, year, Data.Category)
 
-#loop to obtain the total PM2.5 values for each year and each SCCtype
-for(i in 1:length(years)){
-  for(j in 1:length(SCCtype)){
-    #Calculate the sum
-    NEIyear <- filter(NEI, Emissions, year == years[i] & Data.Category == SCCtype[j])
-    Emissionsum <- append(Emissionsum, sum(NEIyear$Emissions))
-  }
-}
+#aggregate the total PM2.5 values for each year
+Emissionsum <- aggregate(Emissions ~ Data.Category + year, data=NEI, sum, rm.na=TRUE)
 
-#appends years and SCC types to the Emissionsum variable and ads colum names
-Emissionsum <- append(Emissionsum, rep(years, each=4))
-Emissionsum <- as.data.frame(matrix(Emissionsum, ncol = 2))
-Emissionsum <- cbind(Emissionsum, SCCtypes)
-colnames(Emissionsum) <- c("TotalPM2.5", "Year", "SCCtypes")
+#some renaming
+colnames(Emissionsum) <- c("SSCtypes", "Year", "Emission")
 
 #plot the graphic
-qplot(Year, TotalPM2.5, data=Emissionsum, color =SCCtypes,
-      main="Total PM2.5 emissions in the US (1999-2008)", xlab= "Years",
+qplot(Year, Emission, data=Emissionsum, color =SCCtypes,
+      main="Total PM2.5 emissions by year in Baltimore (1999-2008)",
+      xlab= "Years",
       ylab= "Total PM2.5 emissions (ton)", geom=c("point",  "smooth"))
 #this trows a couple of Warnings as a result of the added geom. This however, does not
 #influence the plot.

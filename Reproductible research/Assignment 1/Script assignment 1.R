@@ -11,6 +11,7 @@ if (!file.exists("activity.csv")) {
   download.file(url, dest, meth, quit, mode)
   #Works on tested operating system (Windows 7). Please change values if needed.
   unzip("activity.zip")
+  remove.file("activity.zip")
   } 
 
 activity <- read.csv("activity.csv", na.strings="NA")

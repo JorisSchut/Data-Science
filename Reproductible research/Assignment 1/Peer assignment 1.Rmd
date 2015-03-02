@@ -1,11 +1,11 @@
 ---
-title: 'Reproducible Research: Peer Assessment 1'
+title: "Reproductible research peer assignment 1"
+author: "Joris Schut"
+date: "Monday, March 02, 2015"
 output:
   html_document:
     keep_md: yes
-  pdf_document: default
 ---
-
 
 ## Loading and preprocessing the data
 
@@ -25,6 +25,7 @@ if (!file.exists("activity.csv")) {
   download.file(url, dest, meth, quit, mode)
   #Works on tested operating system (Windows 7). Please change values if needed.
   unzip("activity.zip")
+  remove.file("activity.zip")
   }  
 
 activity <- read.csv("activity.csv", na.strings="NA")
