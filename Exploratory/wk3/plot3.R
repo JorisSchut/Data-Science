@@ -36,11 +36,12 @@ NEI <- merge(NEI, SCC, by="SCC")%>%
 #aggregate the total PM2.5 values for each year
 Emissionsum <- aggregate(Emissions ~ Data.Category + year, data=NEI, sum, rm.na=TRUE)
 
-#some renaming
-colnames(Emissionsum) <- c("SSCtypes", "Year", "Emission")
+#some renaming and reshufling
+colnames(Emissionsum) <- c("Type", "Year", "Emission")
+Emissionsum <- select(Emissionsum, Year, Emission, Type)
 
 #plot the graphic
-qplot(Year, Emission, data=Emissionsum, color =SCCtypes,
+qplot(Year, Emission, data=Emissionsum, color=Type,
       main="Total PM2.5 emissions by year in Baltimore (1999-2008)",
       xlab= "Years",
       ylab= "Total PM2.5 emissions (ton)", geom=c("point",  "smooth"))
