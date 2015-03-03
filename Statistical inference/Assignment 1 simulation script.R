@@ -44,6 +44,7 @@ for (i in 1 : runs){
   mns = append(mns, mean(rexp(n, lambda)))
 }
 
+
 #Calculate theoretical values for the average and the variance
 theomean2 <- theomean1
 theovar2 <- (1/(lambda^2))/n
@@ -59,3 +60,15 @@ hx <- binwidth*runs*dnorm(x, mean=theomean2, sd=sqrt(theovar2))
 hist(mns, breaks=seq(1,9,by=binwidth),main="Histogram of the average samples",
      xlab="Sample average")
 lines(x, hx)
+
+histmns <- hist(mns, breaks=seq(1,9,by=binwidth), plot=FALSE)
+fmns<- histmns$density
+pmns <- pnorm(fmns, mean=theomean2, sd=sqrt(theovar2))
+qmns <- qnorm(pmns, mean=theomean2, sd=sqrt(theovar2))
+
+px <- pnorm(hx/(binwidth*runs), mean=theomean2, sd=sqrt(theovar2))
+qx <- qnorm(px, mean=theomean2, sd=sqrt(theovar2))
+
+plot(qx, qx, main="Normal approcimation of experimental data", xlab="quartile",
+     ylab="quartile")
+lines(qmns, qmns)
