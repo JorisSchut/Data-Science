@@ -1,18 +1,17 @@
 ---
-title: "Code book"
+title: "Codebook for Getting and Cleaning Data Course Project"
 author: "Joris Schut"
-date: "Friday, February 06, 2015"
-output: html_document
+date: "Tuesday, March 05, 2015"
+output:
+  html_document:
+    keep_md: yes
 ---
 
-#Codebook for Getting and Cleaning Data Course Project
-======================================================
-
 ## Project Description
-This script is to take the UCI HAR (Human Activity Recognition 
-        using smart phones) Dataset and do the following things:
+In this project, raw data from the UCI machine learning repository was transformed into a clean data file that follows the [principles of tidy data](http://vita.had.co.nz/papers/tidy-data.pdf).
 
-Create one R script called run_analysis.R that does the following. 
+To do this a R script called run_analysis.R was created that does the following:
+ 0. Checks if the data is present and dowloads it if this is not the case.
  1. Merges the training and the test sets to create one data set.
  2. Extracts only the measurements on the mean and standard deviation for 
     each measurement. 
@@ -22,98 +21,132 @@ Create one R script called run_analysis.R that does the following.
     set with the average of each variable for each activity and each subject.
 
 ##Creating the tiny datafile
- 1. Download the datafile from the UCI Machine Learning repository at:
-    http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
-    or direcly from:
-    https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
-    into the folder the run_analysis.R script is located.
+ 1. Download the data file from the UCI Machine Learning repository at [this web page](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
+    or directly from [here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) into the folder the run_analysis.R script is located.
  2. Set the working directory to this directory.
  3. Run the run_analysis script.
 
 ##Description of the variables in the tiny_data.txt file
 
-###subject
-Subject number; numerical value ranging from 1 to 30
+```{r, echo=FALSE}
+tidy <- read.table("tidy_data.txt", header=TRUE)
+print("Dimensions of the tidy dataset (rows, columns):")
+print(dim(tidy))
+print("Summary of the tidy dataset:")
+print(summary(tidy))
+print("Variables in the data set:")
+print(names(tidy))
+```
 
-###activity
-Describes the activity when the measurement was taken.
-Values:
-- WALKING
-- WALKING_UPSTAIRS
-- WALKING_DOWNSTAIRS
-- SITTING
-- STANDING
-- LAYING
+###Subject
+The subject variable contains information about the subject which the data was taken from.
 
-###sensor
-Sensor used for the measurement.
-Values:
-- time-body-acceleration-mean-x                  
-- time-body-acceleration-mean-y                  
-- time-body-acceleration-mean-z                  
-- time-body-acceleration-std-x                   
-- time-body-acceleration-std-y                   
-- time-body-acceleration-std-z                   
-- time-gravity-acceleration-mean-x               
-- time-gravity-acceleration-mean-y               
-- time-gravity-acceleration-mean-z               
-- time-gravity-acceleration-std-x                
-- time-gravity-acceleration-std-y                
-- time-gravity-acceleration-std-z                
-- time-body-acceleration-jerk-mean-x             
-- time-body-acceleration-jerk-mean-y             
-- time-body-acceleration-jerk-mean-z             
-- time-body-acceleration-jerk-std-x              
-- time-body-acceleration-jerk-std-y              
-- time-body-acceleration-jerk-std-z              
-- time-body-gyroscope-mean-x                     
-- time-body-gyroscope-mean-y                     
-- time-body-gyroscope-mean-z                     
-- time-body-gyroscope-std-x                      
-- time-body-gyroscope-std-y                      
-- time-body-gyroscope-std-z                      
-- time-body-gyroscope-jerk-mean-x                
-- time-body-gyroscope-jerk-mean-y                
-- time-body-gyroscope-jerk-mean-z                
-- time-body-gyroscope-jerk-std-x                 
-- time-body-gyroscope-jerk-std-y                 
-- time-body-gyroscope-jerk-std-z                 
-- time-body-acceleration-magnitude-mean          
-- time-body-acceleration-magnitude-std           
-- time-gravity-acceleration-magnitude-mean       
-- time-gravity-acceleration-magnitude-std        
-- time-body-acceleration-jerk-magnitude-mean     
-- time-body-acceleration-jerk-magnitude-std      
-- time-body-gyroscope-magnitude-mean             
-- time-body-gyroscope-magnitude-std              
-- time-body-gyroscope-jerk-magnitude-mean        
-- time-body-gyroscope-jerk-magnitude-std         
-- frequency-body-acceleration-mean-x             
-- frequency-body-acceleration-mean-y             
-- frequency-body-acceleration-mean-z             
-- frequency-body-acceleration-std-x              
-- frequency-body-acceleration-std-y              
-- frequency-body-acceleration-std-z              
-- frequency-body-acceleration-jerk-mean-x        
-- frequency-body-acceleration-jerk-mean-y        
-- frequency-body-acceleration-jerk-mean-z        
-- frequency-body-acceleration-jerk-std-x         
-- frequency-body-acceleration-jerk-std-y         
-- frequency-body-acceleration-jerk-std-z         
-- frequency-body-gyroscope-mean-x                
-- frequency-body-gyroscope-mean-y                
-- frequency-body-gyroscope-mean-z                
-- frequency-body-gyroscope-std-x                 
-- frequency-body-gyroscope-std-y                 
-- frequency-body-gyroscope-std-z                 
-- frequency-body-acceleration-magnitude-mean     
-- frequency-body-acceleration-magnitude-std      
-- frequency-body-acceleration-jerk-magnitude-mean
-- frequency-body-acceleration-jerk-magnitude-std 
-- frequency-body-gyroscope-magnitude-mean        
-- frequency-body-gyroscope-magnitude-std         
-- frequency-body-gyroscope-jerk-magnitude-mean   
-- frequency-body-gyroscope-jerk-magnitude-std    
+```{r, echo=FALSE}
+print("Class of the subject variable:")
+print(class(tidy$Subject))
+print("Values of the subject variable:")
+print(unique(tidy$Subject))
+```
 
-###value
-Numeric data gathered from the measurement
+Unit of measurement: - (none)
+
+###Activity
+The activity variable contains information about the activity that took place during the measurement.
+
+```{r, echo=FALSE}
+print("Class of the activity variable:")
+print(class(tidy$Activity))
+print("Values of the activity variable:")
+print(levels(tidy$Activity))
+```
+
+Unit of measurement: - (none)
+
+###Sensor
+The sensor variable contains information about the sensor that took the measurement.
+
+```{r, echo=FALSE}
+print("Class of the sensor variable:")
+print(class(tidy$Sensor))
+print("Values of the sensor variable:")
+print(levels(tidy$Sensor))
+```
+
+Unit of measurement: - (none)    
+
+###Value
+The value variable contains information about the mean or standard deviation (see the sensor variable for this) of the movement gathered by a sensor.
+
+```{r, echo=FALSE}
+print("Class of the value variable:")
+print(class(tidy$Value))
+print("Summary of the value variable:")
+print(summary(tidy$Value))
+```
+
+Unit of measurement: Hz (Hertz)
+
+##Study design and data processing
+
+###Collection of the raw data [1]
+The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained data set has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
+
+The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain.
+
+A video of the experiment including an example of the 6 recorded activities with one of the participants can be seen in the following link: [Web Link](https://www.youtube.com/watch?v=XOEN9W05_4A)
+
+###Cleaning of the data
+Cleaning the raw data took place using the run_analysis.R script. This scrip performs the following steps:
+
+ 0. Checks if the data set is present. If this is not the case it downloads the data set.
+ 1. Merges the training and the test sets to create one data set.
+ 2. Extracts only the measurements of the mean and standard deviation for 
+    each measurement. 
+ 3. Uses descriptive activity names to name the activities in the data set
+ 4. Appropriately labels the data set with descriptive variable names. 
+ 5. From the data set in step 4, creates a second, independent tidy data 
+    set with the average of each variable for each activity and each subject.
+For an explanation of the code see the Readme.md file accompanying this code book.
+
+##Sources
+1. [UCI Machine learning repostiory](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
+
+##Annex
+In this annex, the code used to create this code book is displayed:
+
+```{r, results='hide'}
+
+#Code block 1
+tidy <- read.table("tidy_data.txt", header=TRUE)
+print("Dimensions of the tidy dataset (rows, columns):")
+print(dim(tidy))
+print("Summary of the tidy dataset:")
+print(summary(tidy))
+print("Variables in the data set:")
+print(names(tidy))
+
+#Code block 2
+print("Class of the subject variable:")
+print(class(tidy$Subject))
+print("Values of the subject variable:")
+print(unique(tidy$Subject))
+
+#Code block 3
+print("Class of the activity variable:")
+print(class(tidy$Activity))
+print("Values of the activity variable:")
+print(levels(tidy$Activity))
+
+#Code block 4
+print("Class of the sensor variable:")
+print(class(tidy$Sensor))
+print("Values of the sensor variable:")
+print(levels(tidy$Sensor))
+
+#Code block 5
+print("Class of the value variable:")
+print(class(tidy$Value))
+print("Summary of the value variable:")
+print(summary(tidy$Value))
+
+```
