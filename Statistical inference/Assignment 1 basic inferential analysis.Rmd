@@ -116,7 +116,7 @@ t.test(x2[,2], x2[,3], alternative="two.sided")
 
 ##4 State your conclusions and the assumptions needed for your conclusions
 
-With regard to the questions wherer the means of the observations of the 2 levels present in the subb variable are similar, it can be concluded that we reject H0 in favor of Ha as the p-value of the t-test is smaller than 0.05 (2.2e-16). The same conclusion can be drawn from the 3 t-test from the dose variable (p-values: 1.268e-07, 4.398e-14 and 1.906e-05).
+With regard to the questions wherer the means of the observations of the 2 levels present in the subb variable are similar, it can be concluded that we accept H0 in favor of Ha as the p-value of the t-test is larger than 0.05 (p = 0.06063). For the test preformed on the different values of the dose variable however, we reject H0 as these p-values are smaller than 0.05 (p-values: 1.268e-07, 4.398e-14 and 1.906e-05).
 
 Four assumptions have been made to arrive at these conlusions: the assumption the sample are indepent and identical distributed, the samples are taken from comparable groups, the samples are not paired and the variances were unequal. Given the data is from the same study, the first two assumptions can be considered reasonable. This is also true for the third assumption as data represent differnt persons. The fourth assumption was not tested but can easily be verified (see annex).
 
