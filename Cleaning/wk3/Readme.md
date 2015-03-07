@@ -175,7 +175,7 @@ The result of the data processing were saved in a separate text file (tidy_data.
 ## [1] "Subject"  "Activity" "Sensor"   "Value"
 ```
 
-All variables are detailed described in the Code Book.md. Please refer to this document for a more detailed explanation of the variables.
+All variables are detailed described in the [Code Book.md](https://github.com/JorisSchut/Data-Science/blob/master/Cleaning/wk3/Codebook.md). Please refer to this document for a more detailed explanation of the variables.
 
 ##Sources
 1. [UCI Machine learning repostiory](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)

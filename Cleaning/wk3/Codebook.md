@@ -6,7 +6,7 @@ Tuesday, March 05, 2015
 In this project, raw data from the UCI machine learning repository was transformed into a clean data file that follows the [principles of tidy data](http://vita.had.co.nz/papers/tidy-data.pdf).
 
 To do this a R script called run_analysis.R was created that does the following:
- 0. Checks if the data is present and dowloads it if this is not the case.
+ 0. Checks if the data is present and downloads it if this is not the case.
  1. Merges the training and the test sets to create one data set.
  2. Extracts only the measurements on the mean and standard deviation for 
     each measurement. 
@@ -202,6 +202,18 @@ The sensor variable contains information about the sensor that took the measurem
 ## [66] "time-gravity-acceleration-std-z"
 ```
 
+The variable name as follows:
+
+Domain: type of measurement captured (frequency or time).
+
+Sensor placement: placement of the sensor (body indicated on the body).
+
+Measurement: Type of measurement taking place. The body linear acceleration and angular velocity were derived in time to obtain Jerk signals. Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm. Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing the frequency of the measurements.
+
+Type of data: mathematical procedure carried out on the measurements (mean or standard deviation).
+
+Axis: axis on which the measurement took place (x, y, z or none for global measurements).
+
 Unit of measurement: - (none)    
 
 ###Value
@@ -225,7 +237,7 @@ The value variable contains information about the mean or standard deviation (se
 ## -0.99770 -0.96210 -0.46990 -0.48440 -0.07836  0.97450
 ```
 
-Unit of measurement: Hz (Hertz)
+Unit of measurement: Hz (Hertz) for frequency measurements or s (second) for time measurements.
 
 ##Study design and data processing
 
@@ -247,7 +259,8 @@ Cleaning the raw data took place using the run_analysis.R script. This scrip per
  4. Appropriately labels the data set with descriptive variable names. 
  5. From the data set in step 4, creates a second, independent tidy data 
     set with the average of each variable for each activity and each subject.
-For an explanation of the code see the Readme.md file accompanying this code book.
+
+For an explanation of the code used in the data processing see the [Readme.md](https://github.com/JorisSchut/Data-Science/blob/master/Cleaning/wk3/Readme.md) file accompanying this code book.
 
 ##Sources
 1. [UCI Machine learning repostiory](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
