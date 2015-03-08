@@ -20,6 +20,24 @@ To do this a R script called run_analysis.R was created that does the following:
     or directly from [here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) into the folder the run_analysis.R script is located.
  2. Set the working directory to this directory.
  3. Run the run_analysis script.
+ 
+##Notes on the original (raw) data 
+ The dataset includes the following files:
+- 'README.txt'
+- 'features_info.txt': Shows information about the variables used on the feature vector.
+- 'features.txt': List of all features.
+- 'activity_labels.txt': Links the class labels with their activity name.
+- 'train/X_train.txt': Training set.
+- 'train/y_train.txt': Training labels.
+- 'test/X_test.txt': Test set.
+- 'test/y_test.txt': Test labels.
+
+The following files are available for the train and test data. Their descriptions are equivalent. 
+
+- 'train/subject_train.txt': Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. 
+- 'train/Inertial Signals/total_acc_x_train.txt': The acceleration signal from the smartphone accelerometer X axis in standard gravity units 'g'. Every row shows a 128 element vector. The same description applies for the 'total_acc_x_train.txt' and 'total_acc_z_train.txt' files for the Y and Z axis. 
+- 'train/Inertial Signals/body_acc_x_train.txt': The body acceleration signal obtained by subtracting the gravity from the total acceleration. 
+- 'train/Inertial Signals/body_gyro_x_train.txt': The angular velocity vector measured by the gyroscope for each window sample. The units are radians/second. 
 
 ##Description of the variables in the tiny_data.txt file
 
@@ -202,7 +220,7 @@ The sensor variable contains information about the sensor that took the measurem
 ## [66] "time-gravity-acceleration-std-z"
 ```
 
-The variable name as follows:
+The variable name are constructed as follows with a dash (-) between the various elements that make up the variable name:
 
 Domain: type of measurement captured (frequency or time).
 
@@ -210,9 +228,12 @@ Sensor placement: placement of the sensor (body indicated on the body).
 
 Measurement: Type of measurement taking place. The body linear acceleration and angular velocity were derived in time to obtain Jerk signals. Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm. Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing the frequency of the measurements.
 
-Type of data: mathematical procedure carried out on the measurements (mean or standard deviation).
+Type of data: mathematical procedure carried out on the measurements. The following operations were applied to the data:
+ - mean: Mean value
+ - std: Standard deviation
 
-Axis: axis on which the measurement took place (x, y, z or none for global measurements).
+
+Axis: axis on which the measurement took place (x, y, z or none for global (magnitude) measurements).
 
 Unit of measurement: - (none)    
 
@@ -237,7 +258,13 @@ The value variable contains information about the mean or standard deviation (se
 ## -0.99770 -0.96210 -0.46990 -0.48440 -0.07836  0.97450
 ```
 
-Unit of measurement: Hz (Hertz) for frequency measurements or s (second) for time measurements.
+Unit of measurement: Depending on the type of sensor.
+
+Notes on values:
+- Features are normalized and bounded within [-1,1].
+- Each feature vector is a row on the text file.
+- The units used for the accelerations (total and body) are 'g's (gravity of earth -> 9.80665 m/seg2).
+- The gyroscope units are rad/seg.
 
 ##Study design and data processing
 
