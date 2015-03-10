@@ -20,13 +20,16 @@ To do this a R script called run_analysis.R was created that does the following:
  5. From the data set in step 4, creates a second, independent tidy data 
     set with the average of each variable for each activity and each subject.
 
-##Creating the tiny datafile
- 1. Download the data file from the UCI Machine Learning repository at [this web page](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
-    or directly from [here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) into the folder the run_analysis.R script is located.
- 2. Set the working directory to this directory.
- 3. Run the run_analysis script.
- 
-##Notes on the original (raw) data 
+##Study design and data processing
+
+###Collection of the raw data [1]
+The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained data set has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
+
+The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain.
+
+A video of the experiment including an example of the 6 recorded activities with one of the participants can be seen in the following link: [Web Link](https://www.youtube.com/watch?v=XOEN9W05_4A)
+
+###Notes on the original (raw) data 
  The dataset includes the following files:
 - 'README.txt'
 - 'features_info.txt': Shows information about the variables used on the feature vector.
@@ -43,6 +46,28 @@ The following files are available for the train and test data. Their description
 - 'train/Inertial Signals/total_acc_x_train.txt': The acceleration signal from the smartphone accelerometer X axis in standard gravity units 'g'. Every row shows a 128 element vector. The same description applies for the 'total_acc_x_train.txt' and 'total_acc_z_train.txt' files for the Y and Z axis. 
 - 'train/Inertial Signals/body_acc_x_train.txt': The body acceleration signal obtained by subtracting the gravity from the total acceleration. 
 - 'train/Inertial Signals/body_gyro_x_train.txt': The angular velocity vector measured by the gyroscope for each window sample. The units are radians/second. 
+
+##Creating the tidy datafile
+
+###Guide to create the tidy data file
+1. Download the data file from the UCI Machine Learning repository at [this web page](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
+    or directly from [here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) into the folder the run_analysis.R script is located.
+ 2. Set the working directory to this directory.
+ 3. Run the run_analysis script.
+
+###Cleaning of the data
+Cleaning the raw data took place using the run_analysis.R script. This scrip performs the following steps:
+
+ 0. Checks if the data set is present. If this is not the case it downloads the data set.
+ 1. Merges the training and the test sets to create one data set.
+ 2. Extracts only the measurements of the mean and standard deviation for 
+    each measurement. 
+ 3. Uses descriptive activity names to name the activities in the data set
+ 4. Appropriately labels the data set with descriptive variable names. 
+ 5. From the data set in step 4, creates a second, independent tidy data 
+    set with the average of each variable for each activity and each subject.
+
+For an explanation of the code used in the data processing see the [Readme.md](https://github.com/JorisSchut/Data-Science/blob/master/Cleaning/wk3/Readme.md) file accompanying this code book.
 
 ##Description of the variables in the tiny_data.txt file
 
@@ -85,6 +110,9 @@ print("Values of the sensor variable:")
 print(levels(tidy$Sensor))
 ```
 
+Unit of measurement: - (none)
+
+####Variable name construction
 The variable name are constructed as follows with a dash (-) between the various elements that make up the variable name:
 
 Domain: type of measurement captured (frequency or time).
@@ -100,8 +128,6 @@ Type of data: mathematical procedure carried out on the measurements. The follow
 
 Axis: axis on which the measurement took place (x, y, z or none for global (magnitude) measurements).
 
-Unit of measurement: - (none)    
-
 ###Value
 The value variable contains information about the mean or standard deviation (see the sensor variable for this) of the movement gathered by a sensor.
 
@@ -114,34 +140,11 @@ print(summary(tidy$Value))
 
 Unit of measurement: Depending on the type of sensor.
 
-Notes on values:
+####Notes on values:
 - Features are normalized and bounded within [-1,1].
 - Each feature vector is a row on the text file.
 - The units used for the accelerations (total and body) are 'g's (gravity of earth -> 9.80665 m/seg2).
 - The gyroscope units are rad/seg.
-
-##Study design and data processing
-
-###Collection of the raw data [1]
-The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained data set has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
-
-The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain.
-
-A video of the experiment including an example of the 6 recorded activities with one of the participants can be seen in the following link: [Web Link](https://www.youtube.com/watch?v=XOEN9W05_4A)
-
-###Cleaning of the data
-Cleaning the raw data took place using the run_analysis.R script. This scrip performs the following steps:
-
- 0. Checks if the data set is present. If this is not the case it downloads the data set.
- 1. Merges the training and the test sets to create one data set.
- 2. Extracts only the measurements of the mean and standard deviation for 
-    each measurement. 
- 3. Uses descriptive activity names to name the activities in the data set
- 4. Appropriately labels the data set with descriptive variable names. 
- 5. From the data set in step 4, creates a second, independent tidy data 
-    set with the average of each variable for each activity and each subject.
-
-For an explanation of the code used in the data processing see the [Readme.md](https://github.com/JorisSchut/Data-Science/blob/master/Cleaning/wk3/Readme.md) file accompanying this code book.
 
 ##Sources
 1. [UCI Machine learning repostiory](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
