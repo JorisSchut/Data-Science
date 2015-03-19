@@ -45,7 +45,7 @@ The following files are available for the train and test data. Their description
 ##Creating the tidy datafile
 
 ###Guide to create the tidy data file
-1. Download the data file from the UCI Machine Learning repository at [this web page](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
+ 1. Download the data file from the UCI Machine Learning repository at [this web page](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
     or directly from [here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) into the folder the run_analysis.R script is located.
  2. Set the working directory to this directory.
  3. Run the run_analysis script.
