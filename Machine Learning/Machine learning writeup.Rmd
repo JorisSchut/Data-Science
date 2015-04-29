@@ -1,0 +1,23 @@
+---
+title: "Machine Learning assignment"
+author: "Joris Schut"
+date: "Tuesday, April 28, 2015"
+output: html_document
+---
+
+##Initial steps
+First, a initial check is performed to see if the files required are present. In not, the files are downloaded in the working directory. Second, the libraries required in the project are loaded.
+
+##Loading the data
+In this step, the data is loaded. This is done in two variables: one for the testing set and one for the training set.
+
+###Creating the training and test sets
+In this step the training data is split into two parts 
+
+##Cleaning the data
+
+##Fittiing the model
+
+##Predicting model accuracy
+
+##Placing the model over the test set
