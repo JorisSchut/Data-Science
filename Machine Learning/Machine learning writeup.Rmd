@@ -12,12 +12,119 @@ First, a initial check is performed to see if the files required are present. In
 In this step, the data is loaded. This is done in two variables: one for the testing set and one for the training set.
 
 ###Creating the training and test sets
-In this step the training data is split into two parts 
+In this step the training data is split into two parts. 70% of the training data is put into the training set and the remaining 30% in the testing set (not to be confused with the testing data). 
 
 ##Cleaning the data
+In order to run a random forest algorithm, the columns with more than 70% NA values were left out of the analysis. The columns that fulfilled this conditions in the training set were selected and their names were stored. In the testing set and the testing data the same columns were selected as in the training set.
 
-##Fittiing the model
+##Fitting the model
+Based on the remaining columns of the training set a random forest model (from the randomForest library) was fitted. This yielded a model with an accuracy of 100% on the training set.
+
+```{r, comment=FALSE, echo=FALSE, message=FALSE, error=FALSE}
+#Download the files (if not already done)
+if (!file.exists("pml-training.csv")) {
+  url  = "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
+  dest = "pml-training.csv"
+  meth = "internal"
+  quit = TRUE
+  mode = "wb"
+  download.file(url, dest, meth, quit, mode)
+  #Works on tested operating system (Windows 7). Please change values if needed.
+} 
+if (!file.exists("pml-testing.csv")) {
+  url  = "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
+  dest = "pml-testing.csv"
+  meth = "internal"
+  quit = TRUE
+  mode = "wb"
+  download.file(url, dest, meth, quit, mode)
+  #Works on tested operating system (Windows 7). Please change values if needed.
+} 
+
+#Load libraries
+library(dplyr)
+library(caret)
+library(randomForest)
+
+#Load the training and testing data
+trainingdata <- read.csv("pml-training.csv", na.strings=c("NA","#DIV/0!",""))
+testingdata <- read.csv("pml-testing.csv", na.strings=c("NA","#DIV/0!",""))
+
+#Divide the training set in a training and testing set
+inTrain <- createDataPartition(y=trainingdata$classe,
+                               p=0.7, list=FALSE)
+training <- trainingdata[inTrain,]
+testing <- trainingdata[-inTrain,]
+
+#Cleaning and transformations
+
+#Removing the x variable (# observation)
+training <- training[c(-1)]
+testing <- testing[c(-1)]
+testingdata <- testingdata[c(-1)]
+
+#Removing variables with many NA's (treshold: 70% NA)
+training2 <- data.frame(matrix(nrow=nrow(training)))
+trainingnames <- character()
+a <- numeric()
+
+#Training set
+for(i in 1:length(training)){
+  if(sum(is.na(training[1:nrow(training), i]))/nrow(training) <= 0.3){
+    training2 <- cbind(training2, training[,i])
+    trainingnames <- append(trainingnames, names(training[i]))
+    a <- append(a,i)
+  }
+}
+
+training2 <- training2[,-1]
+names(training2) <- trainingnames
+training <- training2
+
+#Apply the same transformation to the test set
+test2 <- data.frame(matrix(nrow=nrow(testing)))
+for(j in 1:length(a)){
+  test2 <- cbind(test2, testing[,a[j]])
+}
+
+test2 <- test2[,-1]
+names(test2) <- trainingnames
+testing <- test2
+
+#Apply the same transformation to the final test set
+test3 <- data.frame(matrix(nrow=nrow(testingdata)))
+for(k in 1:length(a)){
+  test3 <- cbind(test3, testingdata[,a[k]])
+}
+
+test3 <- test3[,-1]
+names(test3) <- trainingnames
+colnames(test3)[59] <- names(testingdata[159])
+testingdata <- test3
+
+#Develop the model
+
+#Run the random forest algoritm on the training set
+model <- randomForest(classe ~. , data=(training))
+
+#Test the model
+
+#Run the model on the testing set (derived from the training data)
+predict <- predict(model, training, type="class")
+predictions <- predict(model, testing, type = "class")
+
+#Check the accuracy of the model
+confusionMatrix(predict, training$classe)
+
+````
 
 ##Predicting model accuracy
+Model accuracy was predicted by fitting the data to the training set. Based on the testing set model accuracy was 99.9%,
+
+```{r, echo=FALSE}
+confusionMatrix(predictions, testing$classe)
+
+```
 
 ##Placing the model over the test set
+Finally, model was fitted on the testing data using the code provided by the instructors. Results were outputted in separate .txt files which were submitted to the Coursera website. Prediction was accurate in 20 out of 20 cases (100% accuracy).

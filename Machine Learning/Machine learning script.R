@@ -87,9 +87,12 @@ model <- randomForest(classe ~. , data=(training))
 #Test the model
 
 #Run the model on the testing set (derived from the training data)
+predict <- predict(model, training, type="class")
 predictions <- predict(model, testing, type = "class")
 
 #Check the accuracy of the model
+confusionMatrix(predict, training$classe)
+
 confusionMatrix(predictions, testing$classe)
 
 
